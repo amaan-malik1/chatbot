@@ -1,4 +1,3 @@
-
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
 import { userModel } from "../model/user.js";
@@ -81,10 +80,13 @@ export const signin = async (req, res) => {
 
     const token = jwt.sign(payload, JWT_SECRET, { expiresIn: "3d" });
 
+    const isProd = process.env.NODE_ENV === "production";
+
     res.cookie("jwt", token, {
       maxAge: 3 * 24 * 60 * 60 * 1000, //its in milisec
       httpOnly: true, // prevent xss attacks
       sameSite: "None", // prevent csrf attacks
+      secure: isProd,
     });
 
     res.status(201).json({

@@ -66,7 +66,7 @@ const PhonePmt = ({ onAuthSuccess }) => {
             transition={{ duration: 0.25 }}
           >
             <p className="text-xs font-medium text-emerald-400 mb-1">
-              Best Personal AI Assistant
+              Best Personal Shoping Assistant
             </p>
             <h2 className="text-xl font-semibold text-slate-50">
               Welcome back

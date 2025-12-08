@@ -25,8 +25,8 @@ const Chat = ({ user }) => {
         id: nextId(),
         from: "bot",
         type: "text",
-        text: `Hi ${user.name}! 👋
-I'm Mobo, your shopping assistant.
+        text: `Hi ${user.name}! 
+I'm ShopBot, your shopping assistant.
 Try "New Deals", "Orders", "Payment Status" or "Others".`,
         buttons: ["New Deals", "Orders", "Payment Status", "Others"],
       },

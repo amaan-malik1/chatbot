@@ -7,19 +7,21 @@ import dataRoute from "./routes/data.js";
 import chatRoute from "./routes/chat.js";
 import { connectDB } from "./utils/db.js";
 
-const app = express();
 dotenv.config();
+const app = express();
+
+const CLIENT_URL = process.env.CLIENT_URL || "http://localhost:5173";
 
 app.use(
   cors({
-    origin: "http://localhost:5173", // your frontend origin
+    origin: CLIENT_URL,
     credentials: true,
   })
 );
 app.use(express.json());
 app.use(cookieParser());
 
-const PORT = process.env.PORT || 3001;
+const PORT = process.env.PORT || 3000;
 
 app.use("/api/v1/auth", authRoute);
 app.use("/api/v1/data", dataRoute);

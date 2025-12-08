@@ -1,16 +1,10 @@
-// src/lib/api.js
-
-// Adjust if your backend port changes
-export const BASE_URL = "http://localhost:3000/api/v1";
+export const BASE_URL =
+  import.meta.env.VITE_API_BASE_URL || "http://localhost:3000/api/v1";
 
 async function request(path, options = {}) {
   const token = localStorage.getItem("token");
 
-  const {
-    method = "GET",
-    body,
-    headers: customHeaders = {},
-  } = options;
+  const { method = "GET", body, headers: customHeaders = {} } = options;
 
   const headers = {
     "Content-Type": "application/json",
@@ -33,7 +27,7 @@ async function request(path, options = {}) {
   try {
     data = await res.json();
   } catch {
-    // no JSON body (e.g. 204) – ignore
+    // no
   }
 
   if (!res.ok) {
@@ -42,8 +36,6 @@ async function request(path, options = {}) {
 
   return data;
 }
-
-/* ---------- AUTH ---------- */
 
 // login: send { phone }
 export function login(phone) {
@@ -61,8 +53,6 @@ export function signup(signupData) {
   });
 }
 
-/* ---------- CHAT ---------- */
-
 // chat: send { message }
 export function sendChat(message) {
   return request("/chat", {
@@ -70,8 +60,6 @@ export function sendChat(message) {
     body: JSON.stringify({ message }),
   });
 }
-
-/* ---------- (optional) data APIs if you ever need them directly ---------- */
 
 export function fetchDeals() {
   return request("/data/deals");
