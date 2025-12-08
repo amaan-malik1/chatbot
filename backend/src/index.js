@@ -10,7 +10,7 @@ import { connectDB } from "./utils/db.js";
 dotenv.config();
 const app = express();
 
-const CLIENT_URL = process.env.CLIENT_URL || "http://localhost:5173";
+const CLIENT_URL = process.env.CLIENT_URL;
 
 app.use(
   cors({
