@@ -1,4 +1,3 @@
-// src/components/PaymentCard.jsx
 import { motion } from "framer-motion";
 import { FiCreditCard } from "react-icons/fi";
 
@@ -11,34 +10,34 @@ const PaymentCard = ({ payment }) => {
     <motion.div
       whileHover={{ scale: 1.03 }}
       className="
-        w-full max-w-md rounded-2xl
-        bg-[#0d121b]/80 backdrop-blur-xl
-        border border-slate-700/60
-        shadow-[0_8px_25px_rgba(0,0,0,0.35)]
+        w-full max-w-md
+        rounded-[26px]
+        bg-black/80
+        border border-white/14
+        backdrop-blur-3xl
+        shadow-[0_26px_80px_rgba(0,0,0,0.95)]
         p-4 flex flex-col gap-2 text-left
       "
     >
       <div className="flex items-center gap-2">
-        <FiCreditCard className="text-emerald-400" size={15} />
-        <h3 className="text-[14px] font-semibold text-slate-100">
+        <FiCreditCard className="text-[#f5c98a]" size={16} />
+        <h3 className="text-[14px] font-semibold text-slate-50">
           {label}
         </h3>
       </div>
 
-      <p className="text-[12px] text-slate-300">
+      <p className="text-[12px] text-slate-100/90">
         Paid:{" "}
-        <span className="font-semibold text-emerald-400">
+        <span className="font-semibold text-[#f6d29e]">
           ₹{payment.amountPaid}
         </span>
       </p>
 
-      <p className="text-[12px] text-slate-300">
+      <p className="text-[12px] text-slate-100/90">
         Pending:{" "}
         <span
           className={`font-semibold ${
-            payment.pendingAmount
-              ? "text-amber-400"
-              : "text-emerald-400"
+            payment.pendingAmount ? "text-amber-300" : "text-[#f6d29e]"
           }`}
         >
           ₹{payment.pendingAmount}

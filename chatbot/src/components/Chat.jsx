@@ -1,4 +1,3 @@
-// src/components/Chat.jsx
 import { motion } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 import { sendChat } from "../lib/api";
@@ -85,21 +84,23 @@ Try "New Deals", "Orders", "Payment Status" or "Others".`,
   return (
     <motion.div
       className="
-        flex flex-col h-[75vh] max-w-3xl w-full mx-auto
-        bg-[#111318] rounded-[28px] border border-slate-800 shadow-xl
+        flex flex-col
+        h-full w-full
       "
-      initial={{ opacity: 0, y: 20 }}
+      initial={{ opacity: 0, y: 16 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.35 }}
     >
       {/* chat messages */}
       <div
         className="
-          flex-1 min-h-0 overflow-y-auto px-4 md:px-6 py-4
-          space-y-3 scrollbar-thin scrollbar-track-[#0d0f12] scrollbar-thumb-slate-600
+          flex-1 min-h-0 overflow-y-auto
+          px-3 md:px-4 py-3
+          space-y-3
+          scrollbar-thin scrollbar-track-transparent scrollbar-thumb-white/15
         "
       >
-        {messages.map((msg) => (
+        {messages.map((msg, idx) => (
           <motion.div
             key={msg.id}
             initial={{ opacity: 0, x: msg.from === "user" ? 20 : -20 }}
@@ -113,7 +114,14 @@ Try "New Deals", "Orders", "Payment Status" or "Others".`,
                   msg.from === "user" ? "justify-end" : "justify-start"
                 }`}
               >
-                <MessageBubble from={msg.from} text={msg.text} />
+                {/* you can plug your TypewriterEffect component around MessageBubble for the first bot msg if desired */}
+                <MessageBubble
+                  from={msg.from}
+                  text={msg.text}
+                  className={
+                    idx === 0 && msg.from === "bot" ? "typewriter" : ""
+                  }
+                />
               </div>
             )}
 
@@ -150,20 +158,25 @@ Try "New Deals", "Orders", "Payment Status" or "Others".`,
               </div>
             )}
 
-            {/* quick reply buttons */}
+            {/* quick reply buttons – like “Book a Free Call / See Projects” */}
             {msg.buttons?.length > 0 && msg.from === "bot" && (
-              <div className="mt-2 flex flex-wrap gap-2">
+              <div className="mt-1 flex flex-wrap gap-2">
                 {msg.buttons.map((b) => (
                   <motion.button
                     key={b}
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.97 }}
                     onClick={() => handleSend(b)}
-                    whileHover={{ scale: 1.04 }}
-                    whileTap={{ scale: 0.92 }}
                     className="
-                      px-3 py-1 rounded-full
-                      bg-[#1a1d22] text-slate-200 text-[12px]
-                      border border-slate-700
-                      hover:bg-[#272b30] transition
+                      px-4 py-2 text-[12px] font-medium
+                      rounded-full
+                      border border-white/40
+                      bg-[radial-gradient(circle_at_top,rgba(255,255,255,0.16),transparent_55%)]
+                      bg-black/80
+                      text-slate-50
+                      shadow-[0_0_0_1px_rgba(255,255,255,0.18),0_18px_40px_rgba(0,0,0,0.9)]
+                      hover:bg-white/6 hover:border-white/70
+                      transition-all duration-200
                     "
                   >
                     {b}
@@ -177,45 +190,59 @@ Try "New Deals", "Orders", "Payment Status" or "Others".`,
         <div ref={bottomRef} />
       </div>
 
-      {/* Input bar */}
+      {/* Input bar – glass like waitlist form */}
       <form
         onSubmit={handleSubmit}
         className="
-          flex items-center gap-3 px-4 md:px-6 py-4
-          border-t border-slate-800 bg-[#0d0f12]/80 backdrop-blur-md
+          flex items-center gap-3
+          px-4 py-3
+          border-t border-white/10
+          bg-black/60
+          backdrop-blur-2xl
         "
       >
         <div
           className="
-            flex-1 flex items-center rounded-full
-            bg-[#1a1d22] border border-slate-700 px-4 py-2
-            shadow-inner
+            flex-1 flex items-center
+            rounded-full
+            border border-white/20
+            bg-[radial-gradient(circle_at_top,rgba(255,255,255,0.18),transparent_60%)]
+            bg-black/80
+            px-4 py-[10px]
+            shadow-[0_0_0_1px_rgba(255,255,255,0.12),0_24px_60px_rgba(0,0,0,0.95)]
           "
         >
           <input
             type="text"
-            placeholder="Ask me anything..."
+            placeholder="Type your request…"
             value={input}
             onChange={(e) => setInput(e.target.value)}
             className="
-              flex-1 bg-transparent text-[14px] text-slate-200 outline-none
-              placeholder:text-slate-500
+              flex-1 bg-transparent text-[14px] text-slate-50 outline-none
+              placeholder:text-slate-400/80
             "
           />
         </div>
 
         <motion.button
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.9 }}
+          whileHover={{ scale: sending ? 1 : 1.03 }}
+          whileTap={{ scale: sending ? 1 : 0.95 }}
           type="submit"
           disabled={sending}
           className="
-            px-5 py-2 rounded-full
-            bg-[#4ade80] text-black font-semibold text-sm
-            hover:bg-[#22c55e] transition disabled:opacity-50
+            px-5 py-2 text-sm font-medium
+            rounded-full
+            border border-white/40
+            bg-[radial-gradient(circle_at_top,rgba(255,255,255,0.16),transparent_55%)]
+            bg-black/80
+            text-slate-50
+            shadow-[0_0_0_1px_rgba(255,255,255,0.2),0_20px_45px_rgba(0,0,0,0.95)]
+            hover:bg-white/8 hover:border-white/80
+            disabled:opacity-50 disabled:shadow-none
+            transition-all duration-200
           "
         >
-          {sending ? "..." : "Send"}
+          {sending ? "…" : "Send"}
         </motion.button>
       </form>
     </motion.div>
