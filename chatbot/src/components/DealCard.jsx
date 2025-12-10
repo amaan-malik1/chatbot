@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 import { FiTag } from "react-icons/fi";
 
-function DealCard({ deal }) {
+function DealCard({ deal, onView }) {
   return (
     <motion.div
       whileHover={{ scale: 1.03, y: -4 }}
@@ -42,6 +42,7 @@ function DealCard({ deal }) {
 
         <button
           type="button"
+          onClick={onView}
           className="
             mt-1 self-start
             rounded-full
