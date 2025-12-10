@@ -15,8 +15,9 @@ const DealCarouselInline = ({ deals = [] }) => {
     <div
       className="
         relative w-full max-w-4xl
-        h-[320px] md:h-[360px]
+        h-[260px] md:h-[320px]
         flex items-center justify-center
+        overflow-hidden
       "
       style={{ perspective: "1200px" }}
     >

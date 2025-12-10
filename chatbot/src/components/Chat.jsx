@@ -91,10 +91,11 @@ Try "New Deals", "Orders", "Payment Status" or "Others".`,
       {/* chat messages */}
       <div
         className="
-          flex-1 min-h-0 overflow-y-auto
+          flex-1 min-h-0
+          overflow-y-auto overflow-x-hidden
           px-3 md:px-4 py-3
           space-y-3
-          scrollbar-thin scrollbar-track-transparent scrollbar-thumb-white/15
+          scrollbar-hide
         "
       >
         {messages.map((msg, idx) => (
