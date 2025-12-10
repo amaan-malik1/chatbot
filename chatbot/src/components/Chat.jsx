@@ -90,7 +90,7 @@ Try "New Deals", "Orders", "Payment Status" or "Others".`,
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.35 }}
     >
-      {/* chat messages */}
+      {/* chat messages container */}
       <div
         className="
           flex-1 min-h-0
@@ -98,8 +98,21 @@ Try "New Deals", "Orders", "Payment Status" or "Others".`,
           px-3 md:px-4 py-3
           space-y-3
           scrollbar-hide
+          scroll-smooth
         "
+        style={{
+          scrollbarWidth: "none", // Firefox hide scrollbars
+        }}
       >
+        {/* Hide webkit scrollbars */}
+        <style>{`
+          .scrollbar-hide::-webkit-scrollbar {
+            display: none !important;
+            width: 0 !important;
+            height: 0 !important;
+          }
+        `}</style>
+
         {messages.map((msg, idx) => (
           <motion.div
             key={msg.id}
@@ -133,7 +146,7 @@ Try "New Deals", "Orders", "Payment Status" or "Others".`,
               </div>
             )}
 
-            {/* orders list */}
+            {/* orders */}
             {msg.type === "orders" && (
               <div className="flex justify-start">
                 <div className="flex flex-col gap-3">
@@ -144,7 +157,7 @@ Try "New Deals", "Orders", "Payment Status" or "Others".`,
               </div>
             )}
 
-            {/* payments list */}
+            {/* payments */}
             {msg.type === "payments" && (
               <div className="flex justify-start">
                 <div className="flex flex-col gap-3">
