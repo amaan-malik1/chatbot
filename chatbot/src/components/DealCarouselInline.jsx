@@ -1,4 +1,3 @@
-// src/components/DealCarouselInline.jsx
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { FiChevronLeft, FiChevronRight } from "react-icons/fi";
@@ -7,9 +6,22 @@ const DealCarouselInline = ({ deals = [] }) => {
   const [index, setIndex] = useState(0);
   if (!deals.length) return null;
 
-  const goPrev = () =>
-    setIndex((prev) => (prev - 1 + deals.length) % deals.length);
-  const goNext = () => setIndex((prev) => (prev + 1) % deals.length);
+  const len = deals.length;
+
+  const clampIndex = (value) => {
+    if (!len) return 0;
+    return ((value % len) + len) % len;
+  };
+
+  const goPrev = (e) => {
+    e.stopPropagation();
+    setIndex((prev) => clampIndex(prev - 1));
+  };
+
+  const goNext = (e) => {
+    e.stopPropagation();
+    setIndex((prev) => clampIndex(prev + 1));
+  };
 
   return (
     <div
@@ -35,6 +47,7 @@ const DealCarouselInline = ({ deals = [] }) => {
           shadow-[0_0_0_1px_rgba(255,255,255,0.2),0_16px_36px_rgba(0,0,0,0.95)]
           hover:bg-white/10 hover:border-white/80
           transition-all duration-200
+          z-30
         "
       >
         <FiChevronLeft size={18} />
@@ -53,6 +66,7 @@ const DealCarouselInline = ({ deals = [] }) => {
           shadow-[0_0_0_1px_rgba(255,255,255,0.2),0_16px_36px_rgba(0,0,0,0.95)]
           hover:bg-white/10 hover:border-white/80
           transition-all duration-200
+          z-30
         "
       >
         <FiChevronRight size={18} />
@@ -61,15 +75,20 @@ const DealCarouselInline = ({ deals = [] }) => {
       {/* cards with 3D effect */}
       <div className="relative w-full h-full flex items-center justify-center">
         {deals.map((deal, i) => {
-          const offset = i - index;
-          if (offset < -2 || offset > 2) return null; // only neighbours
+          // normalized offset based on current index
+          const rawOffset = i - index;
+          const wrappedOffset =
+            ((rawOffset + len + Math.floor(len / 2)) % len) -
+            Math.floor(len / 2); // keeps offsets in small range
 
-          const abs = Math.abs(offset);
-          const x = offset * 260;
-          const scale = offset === 0 ? 1 : 0.78;
-          const rotateY = offset * -18;
-          const opacity = offset === 0 ? 1 : 0.5;
-          const blur = offset === 0 ? "0px" : "1.5px";
+          if (wrappedOffset < -2 || wrappedOffset > 2) return null;
+
+          const abs = Math.abs(wrappedOffset);
+          const x = wrappedOffset * 260;
+          const scale = wrappedOffset === 0 ? 1 : 0.78;
+          const rotateY = wrappedOffset * -18;
+          const opacity = wrappedOffset === 0 ? 1 : 0.5;
+          const blur = wrappedOffset === 0 ? "0px" : "1.5px";
 
           return (
             <motion.div

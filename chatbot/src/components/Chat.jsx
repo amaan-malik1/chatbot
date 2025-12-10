@@ -1,3 +1,4 @@
+// src/components/Chat.jsx
 import { motion } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 import { sendChat } from "../lib/api";
@@ -32,6 +33,7 @@ Try "New Deals", "Orders", "Payment Status" or "Others".`,
     ]);
   }, [user]);
 
+  // scroll to bottom on new messages
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
@@ -124,14 +126,14 @@ Try "New Deals", "Orders", "Payment Status" or "Others".`,
               </div>
             )}
 
-            {/* 3D DEAL CAROUSEL INSIDE CHAT */}
+            {/* 3D deal carousel inside chat */}
             {msg.type === "deals" && (
               <div className="mt-2 flex justify-center">
                 <DealCarouselInline deals={msg.deals} />
               </div>
             )}
 
-            {/* orders */}
+            {/* orders list */}
             {msg.type === "orders" && (
               <div className="flex justify-start">
                 <div className="flex flex-col gap-3">
@@ -142,7 +144,7 @@ Try "New Deals", "Orders", "Payment Status" or "Others".`,
               </div>
             )}
 
-            {/* payments */}
+            {/* payments list */}
             {msg.type === "payments" && (
               <div className="flex justify-start">
                 <div className="flex flex-col gap-3">
@@ -185,7 +187,7 @@ Try "New Deals", "Orders", "Payment Status" or "Others".`,
         <div ref={bottomRef} />
       </div>
 
-      {/* Input bar */}
+      {/* input bar */}
       <form
         onSubmit={handleSubmit}
         className="
